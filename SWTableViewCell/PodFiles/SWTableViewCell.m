@@ -77,6 +77,7 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
 - (void)initializer
 {
     layoutUpdating = NO;
+    
     // Set up scroll view that will host our cell content
     self.cellScrollView = [[SWCellScrollView alloc] init];
     self.cellScrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -176,6 +177,9 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
                                [NSLayoutConstraint constraintWithItem:buttonView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:-kUtilityButtonWidthDefault],
                                ]];
     }
+    
+    
+    //custom animation
 }
 
 static NSString * const kTableViewPanState = @"state";
@@ -778,7 +782,7 @@ static NSString * const kTableViewPanState = @"state";
     {
         self.tapGestureRecognizer.enabled = YES;
     }
-    
+    [self.delegate swipeableTableViewCell:self didEndDragging:self.cellScrollView];
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -801,5 +805,16 @@ static NSString * const kTableViewPanState = @"state";
 {
     return ![touch.view isKindOfClass:[UIControl class]];
 }
+
+
+#pragma mark - Custom cell animation
+-(void)setContentOffset:(CGFloat)offset {
+    [self.cellScrollView setContentOffset:CGPointMake(offset, 0) animated:YES];
+}
+
+-(void) hideOffset {
+    [self.cellScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
 
 @end
