@@ -782,7 +782,9 @@ static NSString * const kTableViewPanState = @"state";
     {
         self.tapGestureRecognizer.enabled = YES;
     }
-    [self.delegate swipeableTableViewCell:self didEndDragging:self.cellScrollView];
+    if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:didEndDragging:)]) {
+        [self.delegate swipeableTableViewCell:self didEndDragging:self.cellScrollView];
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate
